@@ -20,8 +20,10 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v2
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '25'
 
             - name: Configure Git User
               run: |
@@ -45,11 +47,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  if [ -f bun.lock ]; then
-                    bun ci
-                  else
-                    bun install
-                  fi
+                  npm install
 
             - name: Determine version bump type
               id: version_bump
@@ -85,7 +83,7 @@ jobs:
                   echo "pre=$PRE" >> $GITHUB_OUTPUT
 
             - name: Run tests with coverage
-              run: NODE_OPTIONS=--no-webstorage bun run test -- --coverage --coverageDirectory=.coverage
+              run: npm run test -- --coverage --coverageDirectory=.coverage
 
             - name: Upload coverage to Coveralls
               uses: coverallsapp/github-action@v2
@@ -102,21 +100,21 @@ jobs:
                   if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
                     case "$TYPE" in
                       major)
-                        bun pm --no-git-tag-version version premajor --preid=beta
+                        npm --no-git-tag-version version premajor --preid=beta
                         ;;
                       minor)
-                        bun pm --no-git-tag-version version preminor --preid=beta
+                        npm --no-git-tag-version version preminor --preid=beta
                         ;;
                       *)
-                        bun pm --no-git-tag-version version prepatch --preid=beta
+                        npm --no-git-tag-version version prepatch --preid=beta
                         ;;
                     esac
                   else
-                    bun pm --no-git-tag-version version "$TYPE"
+                    npm --no-git-tag-version version "$TYPE"
                   fi
 
                   # Step 2: Get the new version for use in messages and outputs
-                  NEW_VERSION=$(bun pm pkg get version)
+                  NEW_VERSION=$(npm pkg get version)
                   echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
                   # Step 3: Determine the correct prefix for commit and tag messages
@@ -143,14 +141,14 @@ jobs:
               run: echo "version=${{ steps.tag_version.outputs.version }}" >> $GITHUB_OUTPUT
 
             - name: Build package
-              run: bun run build
+              run: npm run build
 
             - name: Publish to NPM
               run: |
                   if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
-                    bun publish --access public --tag next
+                    npm publish --access public --tag next
                   else
-                    bun publish --access public
+                    npm publish --access public
                   fi
               env:
                   NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
