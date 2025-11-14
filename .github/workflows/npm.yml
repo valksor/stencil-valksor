@@ -1,0 +1,172 @@
+on:
+    push:
+        branches:
+            - master
+    workflow_dispatch:
+        inputs:
+            release_type:
+                description: 'Release type (patch, minor, major)'
+                required: false
+                default: ''
+
+jobs:
+    publish:
+        runs-on: self-arm
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Bun
+              uses: oven-sh/setup-bun@v2
+
+            - name: Configure Git User
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+            - name: Validate dispatch branch
+              if: github.event_name == 'workflow_dispatch'
+              run: |
+                  BRANCH="${GITHUB_REF##*/}"
+                  if [[ "$BRANCH" != "master" ]]; then
+                    echo "❌ Manual dispatch allowed only on 'master' branch. Current: $BRANCH"
+                    exit 1
+                  fi
+
+            - name: Get commit message
+              id: commit_message
+              run: |
+                  COMMIT_MSG=$(git log -1 --pretty=format:%s || echo "")
+                  echo "message=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
+            - name: Install dependencies
+              run: |
+                  if [ -f package-lock.json ]; then
+                    bun ci
+                  else
+                    bun install
+                  fi
+
+            - name: Determine version bump type
+              id: version_bump
+              run: |
+                  INPUT_TYPE="${{ github.event.inputs.release_type }}"
+                  COMMIT_MSG="${{ steps.commit_message.outputs.message }}"
+                  BASE_TYPE="patch"
+                  PRE="true"
+
+                  if [[ "$INPUT_TYPE" != "" ]]; then
+                    case "$INPUT_TYPE" in
+                      patch|minor|major)
+                        BASE_TYPE="$INPUT_TYPE"
+                        PRE="false"
+                        ;;
+                      *)
+                        echo "❌ Invalid release_type input: '$INPUT_TYPE'"
+                        exit 1
+                        ;;
+                    esac
+                  elif [[ "$COMMIT_MSG" == *"[major]"* ]]; then
+                    BASE_TYPE="major"
+                    PRE="false"
+                  elif [[ "$COMMIT_MSG" == *"[minor]"* ]]; then
+                    BASE_TYPE="minor"
+                    PRE="false"
+                  elif [[ "$COMMIT_MSG" == *"[patch]"* ]]; then
+                    BASE_TYPE="patch"
+                    PRE="false"
+                  fi
+
+                  echo "type=$BASE_TYPE" >> $GITHUB_OUTPUT
+                  echo "pre=$PRE" >> $GITHUB_OUTPUT
+
+            - name: Run tests with coverage
+              run: bun run test -- --coverage --coverageDirectory=.coverage
+
+            - name: Upload coverage to Coveralls
+              uses: coverallsapp/github-action@v2
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  file: .coverage/lcov.info
+                  format: lcov
+
+            - name: Bump version, commit, and tag
+              id: tag_version
+              run: |
+                  # Step 1: Bump the version in package.json only
+                  TYPE="${{ steps.version_bump.outputs.type }}"
+                  if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
+                    case "$TYPE" in
+                      major)
+                        bun pm --no-git-tag-version version premajor --preid=beta
+                        ;;
+                      minor)
+                        bun pm --no-git-tag-version version preminor --preid=beta
+                        ;;
+                      *)
+                        bun pm --no-git-tag-version version prepatch --preid=beta
+                        ;;
+                    esac
+                  else
+                    bun pm --no-git-tag-version version "$TYPE"
+                  fi
+
+                  # Step 2: Get the new version for use in messages and outputs
+                  NEW_VERSION=$(bun pm pkg get version)
+                  echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+                  # Step 3: Determine the correct prefix for commit and tag messages
+                  if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
+                    MESSAGE_PREFIX="prerelease:"
+                  else
+                    MESSAGE_PREFIX="release:"
+                  fi
+
+                  # Step 4: Stage, commit, and tag the change using the correct prefix
+                  git add package.json
+                  git commit -m "$MESSAGE_PREFIX v${NEW_VERSION} [skip ci]"
+                  git tag -a "v${NEW_VERSION}" -m "$MESSAGE_PREFIX v${NEW_VERSION}"
+
+            - name: Upload bumped package.json
+              uses: actions/upload-artifact@v5
+              with:
+                  name: bumped-package
+                  path: package.json
+                  retention-days: 1
+
+            - name: Get new version
+              id: get_version
+              run: echo "version=${{ steps.tag_version.outputs.version }}" >> $GITHUB_OUTPUT
+
+            - name: Build package
+              run: bun run build
+
+            - name: Publish to NPM
+              run: |
+                  if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
+                    bun publish --access public --tag next
+                  else
+                    bun publish --access public
+                  fi
+              env:
+                  NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Push version changes
+              run: |
+                  git push origin HEAD:master
+                  git push --tags
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: v${{ steps.get_version.outputs.version }}
+                  name: Release v${{ steps.get_version.outputs.version }}
+                  body: |
+                      ${{ steps.commit_message.outputs.message }}
+                  prerelease: ${{ steps.version_bump.outputs.pre }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
