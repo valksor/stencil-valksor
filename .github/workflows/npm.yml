@@ -9,6 +9,11 @@ on:
                 required: false
                 default: ''
 
+permissions:
+    contents: write
+    packages: write
+    id-token: write
+
 jobs:
     publish:
         runs-on: self-arm
@@ -151,8 +156,6 @@ jobs:
                   else
                     npm publish --access public
                   fi
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Push version changes
               run: |
