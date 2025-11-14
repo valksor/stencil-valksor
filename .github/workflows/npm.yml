@@ -85,7 +85,7 @@ jobs:
                   echo "pre=$PRE" >> $GITHUB_OUTPUT
 
             - name: Run tests with coverage
-              run: bun run test -- --coverage --coverageDirectory=.coverage
+              run: NODE_OPTIONS=--no-webstorage bun run test -- --coverage --coverageDirectory=.coverage
 
             - name: Upload coverage to Coveralls
               uses: coverallsapp/github-action@v2
