@@ -17,8 +17,6 @@ permissions:
 jobs:
     publish:
         runs-on: self-arm
-        permissions:
-            contents: write
         steps:
             - name: Checkout code
               uses: actions/checkout@v5
@@ -104,6 +102,7 @@ jobs:
                   # Step 1: Bump the version in package.json only
                   TYPE="${{ steps.version_bump.outputs.type }}"
                   if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
+                    CURRENT_VERSION=$(node -p "require('./package.json').version")
                     case "$TYPE" in
                       major)
                         npm --no-git-tag-version version premajor --preid=beta
@@ -112,7 +111,11 @@ jobs:
                         npm --no-git-tag-version version preminor --preid=beta
                         ;;
                       *)
-                        npm --no-git-tag-version version prepatch --preid=beta
+                        if [[ "$CURRENT_VERSION" == *"-"* ]]; then
+                          npm --no-git-tag-version version prerelease --preid=beta
+                        else
+                          npm --no-git-tag-version version prepatch --preid=beta
+                        fi
                         ;;
                     esac
                   else
