@@ -9,6 +9,11 @@ on:
                 required: false
                 default: ''
 
+# Configurable paths to monitor for changes - add more as needed
+# Examples: "src/ package.json package-lock.json README.md docs/ *.md"
+env:
+    WATCH_PATHS: 'src/ package.json package-lock.json stencil.config.ts tsconfig.json'
+
 permissions:
     contents: write
     packages: write
@@ -23,6 +28,71 @@ jobs:
               with:
                   fetch-depth: 0
 
+            - name: Validate dispatch branch
+              if: github.event_name == 'workflow_dispatch'
+              run: |
+                  BRANCH="${GITHUB_REF##*/}"
+                  if [[ "$BRANCH" != "master" ]]; then
+                      echo "❌ Manual dispatch allowed only on 'master' branch. Current: $BRANCH"
+                      exit 1
+                  fi
+
+            - name: Detect relevant changes
+              id: changes
+              run: |
+                  # For workflow_dispatch (manual triggers), always publish
+                  if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                      echo "🚀 workflow_dispatch detected - publishing will proceed regardless of file changes"
+                      echo "should_publish=true" >> $GITHUB_OUTPUT
+                      exit 0
+                  fi
+
+                  # For push events, check for relevant file changes
+                  echo "📝 Push event detected - checking for relevant changes..."
+                  CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+
+                  echo "🔍 Changed files detected:"
+                  echo "$CHANGED_FILES"
+                  echo ""
+
+                  # Check if any changed files match our watched paths
+                  WATCH_PATHS="${{ env.WATCH_PATHS }}"
+                  SHOULD_PUBLISH="false"
+                  MATCHING_FILES=""
+
+                  for path in $WATCH_PATHS; do
+                      # Handle both directory patterns (ending with /) and file patterns
+                      if [[ "$path" == */ ]]; then
+                          # Directory pattern
+                          MATCH=$(echo "$CHANGED_FILES" | grep -E "^${path}" || true)
+                      else
+                          # File pattern (supports wildcards)
+                          MATCH=$(echo "$CHANGED_FILES" | grep -E "^${path}" || true)
+                      fi
+
+                      if [[ -n "$MATCH" ]]; then
+                          SHOULD_PUBLISH="true"
+                          MATCHING_FILES="${MATCHING_FILES}${MATCH}\n"
+                          echo "✅ Changes detected in watched path: $path"
+                      fi
+                  done
+
+                  echo ""
+                  echo "📋 Files triggering publishing:"
+                  if [[ -n "$MATCHING_FILES" ]]; then
+                      echo -e "$MATCHING_FILES"
+                  else
+                      echo "No matching files found"
+                  fi
+
+                  echo "should_publish=$SHOULD_PUBLISH" >> $GITHUB_OUTPUT
+
+                  if [[ "$SHOULD_PUBLISH" == "true" ]]; then
+                      echo "🚀 Publishing will proceed due to relevant changes"
+                  else
+                      echo "⏭️ Publishing will be skipped - no relevant changes detected"
+                  fi
+
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
@@ -33,15 +103,6 @@ jobs:
               run: |
                   git config --global user.name "github-actions[bot]"
                   git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-            - name: Validate dispatch branch
-              if: github.event_name == 'workflow_dispatch'
-              run: |
-                  BRANCH="${GITHUB_REF##*/}"
-                  if [[ "$BRANCH" != "master" ]]; then
-                    echo "❌ Manual dispatch allowed only on 'master' branch. Current: $BRANCH"
-                    exit 1
-                  fi
 
             - name: Get commit message
               id: commit_message
@@ -59,6 +120,7 @@ jobs:
 
             - name: Determine version bump type
               id: version_bump
+              if: steps.changes.outputs.should_publish == 'true'
               run: |
                   INPUT_TYPE="${{ github.event.inputs.release_type }}"
                   COMMIT_MSG="${{ steps.commit_message.outputs.message }}"
@@ -102,6 +164,7 @@ jobs:
 
             - name: Bump version, commit, and tag
               id: tag_version
+              if: steps.changes.outputs.should_publish == 'true'
               run: |
                   # Step 1: Bump the version in package.json only
                   TYPE="${{ steps.version_bump.outputs.type }}"
@@ -143,6 +206,7 @@ jobs:
                   git tag -a "v${NEW_VERSION}" -m "$MESSAGE_PREFIX v${NEW_VERSION}"
 
             - name: Upload bumped package.json
+              if: steps.changes.outputs.should_publish == 'true'
               uses: actions/upload-artifact@v5
               with:
                   name: bumped-package
@@ -151,12 +215,15 @@ jobs:
 
             - name: Get new version
               id: get_version
+              if: steps.changes.outputs.should_publish == 'true'
               run: echo "version=${{ steps.tag_version.outputs.version }}" >> $GITHUB_OUTPUT
 
             - name: Build package
+              if: steps.changes.outputs.should_publish == 'true'
               run: npm run build
 
             - name: Publish to NPM
+              if: steps.changes.outputs.should_publish == 'true'
               run: |
                   if [[ "${{ steps.version_bump.outputs.pre }}" == "true" ]]; then
                     npm publish --access public --tag next
@@ -167,11 +234,13 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Push version changes
+              if: steps.changes.outputs.should_publish == 'true'
               run: |
                   git push origin HEAD:master
                   git push --tags
 
             - name: Create GitHub Release
+              if: steps.changes.outputs.should_publish == 'true'
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: v${{ steps.get_version.outputs.version }}

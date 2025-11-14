@@ -1,5 +1,9 @@
 ## PART 1: GENERAL DEVELOPMENT PRINCIPLES
 
+# Development Rules
+
+Local development uses `bun` only, no npm or node calls!
+
 ### Core Principles
 
 **Above all, seek truth through verification.**

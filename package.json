@@ -42,27 +42,26 @@
         "loader/"
     ],
     "scripts": {
-        "build": "bun run gen && bun run build.local.css && bun run build.css && stencil build",
+        "build": "bun run gen.mjs && bun run build.local.css && bun run build.css && stencil build",
         "build.css": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/components.min.css --minify",
         "build.local.css": "tailwindcss -i ./src/styles/local.css -o ./src/styles/index.min.css --minify",
         "generate": "stencil generate",
-        "start": "bun run gen && bun run build.local.css && bun run build.css && stencil build --dev --watch --serve",
+        "start": "bun run gen.mjs && bun run build.local.css && bun run build.css && stencil build --dev --watch --serve",
         "test": "stencil test --spec",
         "test.watch": "stencil test --spec --watchAll",
         "bump": "npx npm-check-updates -u --reject jest,jest-cli,@types/jest",
-        "gen": "bun ./gen.mjs",
+        "gen.mjs": "bun ./gen.mjs",
         "lint": "./node_modules/.bin/prettier --write"
     },
     "devDependencies": {
         "@stencil/core": "^4.38.3",
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/typography": "^0.5.19",
-        "@ttskch/prettier-plugin-tailwindcss-anywhere": "^0.1.2",
-        "@types/jest": "29",
+        "@types/jest": "^29.5.14",
         "@types/node": "^24.10.1",
         "autoprefixer": "^10.4.22",
-        "jest": "29",
-        "jest-cli": "29",
+        "jest": "^29.7.0",
+        "jest-cli": "^29.7.0",
         "postcss": "^8.5.6",
         "prettier-plugin-tailwindcss": "^0.7.1",
         "puppeteer": "^24.30.0",
@@ -70,6 +69,7 @@
     },
     "license": "BSD-3-Clause",
     "dependencies": {
-        "caniuse-lite": "latest"
+        "caniuse-lite": "latest",
+        "tailwind-merge": "^3.4.0"
     }
 }

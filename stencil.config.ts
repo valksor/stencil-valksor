@@ -20,8 +20,8 @@ export const config: Config = {
             type: 'www',
             serviceWorker: null, // disable service workers
             copy: [
-                // copy demo.css into the built www folder
                 { src: 'styles/index.min.css', dest: 'styles/index.min.css' },
+                { src: 'favicon.ico', dest: 'favicon.ico' },
             ],
         },
     ],

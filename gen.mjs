@@ -102,39 +102,70 @@ function decodeHtmlAttribute(str) {
         .replace(/&amp;/g, '&');
 }
 
-function generateComponentExamples(tag) {
-    // Generate different prop combinations for demonstration
+async function parseComponentExamples() {
+    try {
+        const examples = {};
+
+        // Get all component directories
+        const componentDirs = await fs.readdir(COMPONENTS_DIR, { withFileTypes: true });
+        const dirs = componentDirs.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+
+        for (const componentDir of dirs) {
+            const componentReadmePath = path.join(COMPONENTS_DIR, componentDir, 'readme.md');
+
+            try {
+                const readmeContent = await fs.readFile(componentReadmePath, 'utf8');
+                const componentExamples = extractExamplesFromReadme(readmeContent);
+
+                if (componentExamples.length > 0) {
+                    examples[componentDir] = { examples: componentExamples };
+                }
+            } catch (err) {
+                // Component readme doesn't exist or can't be read - skip
+                console.debug(`No readme found for component: ${componentDir}`);
+            }
+        }
+
+        return examples;
+    } catch (err) {
+        console.warn('Could not parse component examples:', err.message);
+        return {};
+    }
+}
+
+function extractExamplesFromReadme(readmeContent) {
     const examples = [];
 
-    if (tag === 'latvian-flag') {
-        examples.push({
-            title: 'Default',
-            html: `<${tag}></${tag}>`,
-            code: `<${tag}></${tag}>`,
-        });
-        examples.push({
-            title: 'Custom Classes',
-            html: `<${tag} class="w-16 h-8 border-2 border-gray-300" class2="w-8"></${tag}>`,
-            code: `<${tag} class="w-16 h-8 border-2 border-gray-300" class2="w-8"></${tag}>`,
-        });
-        examples.push({
-            title: 'Large Size',
-            html: `<${tag} class="w-24 h-12 rounded" class2="w-12"></${tag}>`,
-            code: `<${tag} class="w-24 h-12 rounded" class2="w-12"></${tag}>`,
-        });
-    } else {
-        // Default example for unknown components
-        examples.push({
-            title: 'Default',
-            html: `<${tag}></${tag}>`,
-            code: `<${tag}></${tag}>`,
-        });
+    // Find the Examples section
+    const examplesSectionMatch = readmeContent.match(/## Examples\s*\n([\s\S]*?)(?=\n## |\n<!-- Auto Generated Below|\Z)/);
+
+    if (!examplesSectionMatch) {
+        return examples;
+    }
+
+    const examplesSection = examplesSectionMatch[1];
+
+    // Extract individual examples using a pattern that captures title and code block
+    const examplePattern = /###? ([^\n]+)\s*\n[\s\S]*?```html\s*\n([\s\S]*?)```/g;
+    let match;
+
+    while ((match = examplePattern.exec(examplesSection)) !== null) {
+        const title = match[1].trim();
+        const code = match[2].trim();
+
+        if (title && code) {
+            examples.push({
+                title,
+                code,
+                html: code, // Use same code for HTML preview
+            });
+        }
     }
 
     return examples;
 }
 
-function createHtml(tags, componentInfo = {}) {
+function createHtml(tags, componentInfo = {}, componentExamples = {}) {
     if (tags.length === 0) {
         return `<!DOCTYPE html>
 <html lang="en">
@@ -143,6 +174,7 @@ function createHtml(tags, componentInfo = {}) {
     <title>No Components Found</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/index.min.css" />
+    <link rel="icon" href="favicon.ico">
   </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
     <div class="max-w-7xl mx-auto px-4 py-8">
@@ -158,7 +190,18 @@ function createHtml(tags, componentInfo = {}) {
     const componentsHtml = tags
         .map(tag => {
             const info = componentInfo[tag] || {};
-            const examples = generateComponentExamples(tag);
+            const examples = componentExamples[tag]?.examples || [
+                {
+                    title: 'Default',
+                    html: `<${tag}></${tag}>`,
+                    code: `<${tag}></${tag}>`,
+                },
+            ];
+
+            // Ensure HTML property for each example
+            examples.forEach(example => {
+                example.html = example.html || example.code;
+            });
 
             return `
       <div class="component-card bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300">
@@ -242,10 +285,9 @@ function createHtml(tags, componentInfo = {}) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/build/valksor.css" />
     <link rel="stylesheet" href="/styles/index.min.css" />
-
     <script type="module" src="/build/valksor.esm.js"></script>
     <script nomodule src="/build/valksor.js"></script>
-
+    <link rel="icon" href="favicon.ico">
     </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
     <!-- Header -->
@@ -438,12 +480,13 @@ async function run() {
     console.log('Generating src/index.html from Stencil components...');
     console.log('Parsing component information from readme.md...');
 
-    const [tags, componentInfo] = await Promise.all([findAllComponentTags(), parseReadmeComponents()]);
+    const [tags, componentInfo, componentExamples] = await Promise.all([findAllComponentTags(), parseReadmeComponents(), parseComponentExamples()]);
 
     console.log(`Found ${tags.length} components:`, tags);
     console.log(`Parsed information for ${Object.keys(componentInfo).length} components from readme`);
+    console.log(`Parsed examples for ${Object.keys(componentExamples).length} components from readme`);
 
-    const html = createHtml(tags, componentInfo);
+    const html = createHtml(tags, componentInfo, componentExamples);
     await fs.writeFile(OUTPUT_FILE, html, 'utf8');
     console.log(`Generated enhanced ${OUTPUT_FILE} with Tailwind styling and interactive features`);
 }
