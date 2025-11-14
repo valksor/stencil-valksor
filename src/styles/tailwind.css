@@ -1,0 +1,9 @@
+/* Tailwind CSS 4 Configuration - Components Only (No Base Styles) */
+@import 'tailwindcss/utilities' source(none);
+@import 'tailwindcss/theme' source(none);
+
+@source '../components/**/*.tsx';
+
+@theme {
+    --color-latvian: #960018;
+}

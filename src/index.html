@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Valksor Component Library</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/build/valksor.css" />
+        <link rel="stylesheet" href="/styles/index.min.css" />
+
+        <script type="module" src="/build/valksor.esm.js"></script>
+        <script nomodule src="/build/valksor.js"></script>
+    </head>
+    <body class="min-h-screen bg-gray-50 transition-colors dark:bg-gray-900">
+        <!-- Header -->
+        <header class="border-b border-gray-200 bg-white shadow-sm transition-colors dark:border-gray-700 dark:bg-gray-800">
+            <div class="mx-auto max-w-7xl px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 transition-colors dark:text-gray-100">Valksor Component Library</h1>
+                        <p class="mt-2 text-gray-600 transition-colors dark:text-gray-400">Interactive preview of available web components</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search components..."
+                            class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                            onkeyup="filterComponents()"
+                        />
+                        <button
+                            id="darkModeToggle"
+                            onclick="toggleDarkMode()"
+                            class="rounded-lg bg-gray-800 px-4 py-2 text-white transition-colors hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
+                        >
+                            Dark Mode
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="mx-auto max-w-7xl px-4 py-8">
+            <div class="mb-8">
+                <div class="rounded-lg border border-blue-200 bg-blue-50 p-6 transition-colors dark:border-blue-800 dark:bg-blue-900/20">
+                    <h2 class="mb-2 text-xl font-semibold text-blue-900 transition-colors dark:text-blue-100">Welcome to Valksor Components</h2>
+                    <p class="text-blue-800 transition-colors dark:text-blue-200">
+                        This interactive showcase demonstrates all available components. Each card shows different usage examples with live previews and ready-to-copy code
+                        snippets.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] md:gap-4">
+                <div
+                    class="component-card overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                >
+                    <div class="p-6">
+                        <div class="mb-4 flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900 transition-colors dark:text-gray-100">
+                                <code class="rounded bg-gray-100 px-3 py-1 text-lg text-gray-900 transition-colors dark:bg-gray-700 dark:text-gray-100">&lt;latvian-flag&gt;</code>
+                            </h2>
+                            <button
+                                onclick="copyToClipboard('latvian-flag')"
+                                class="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-600"
+                                title="Copy tag name"
+                            >
+                                Copy
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="example-section">
+                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Default</h3>
+
+                                <div
+                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
+                                >
+                                    <latvian-flag></latvian-flag>
+                                </div>
+
+                                <div class="mb-2 flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <button
+                                            onclick="toggleCode('latvian-flag-default')"
+                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
+                                            title="Toggle code display"
+                                        >
+                                            <svg
+                                                id="latvian-flag-default-chevron"
+                                                class="h-3 w-3 transition-transform duration-200"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                            <span id="latvian-flag-default-text">Show Code</span>
+                                        </button>
+                                        <button
+                                            onclick="copyCode('latvian-flag-default')"
+                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
+                                            title="Copy code"
+                                        >
+                                            Copy Code
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="latvian-flag-default-container" class="hidden">
+                                    <pre
+                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
+                                    ><code id="latvian-flag-default" data-code="&lt;latvian-flag&gt;&lt;/latvian-flag&gt;"></code></pre>
+                                </div>
+                            </div>
+
+                            <div class="example-section">
+                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Custom Classes</h3>
+
+                                <div
+                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
+                                >
+                                    <latvian-flag class="h-8 w-16 border-2 border-gray-300" class2="w-8"></latvian-flag>
+                                </div>
+
+                                <div class="mb-2 flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <button
+                                            onclick="toggleCode('latvian-flag-custom-classes')"
+                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
+                                            title="Toggle code display"
+                                        >
+                                            <svg
+                                                id="latvian-flag-custom-classes-chevron"
+                                                class="h-3 w-3 transition-transform duration-200"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                            <span id="latvian-flag-custom-classes-text">Show Code</span>
+                                        </button>
+                                        <button
+                                            onclick="copyCode('latvian-flag-custom-classes')"
+                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
+                                            title="Copy code"
+                                        >
+                                            Copy Code
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="latvian-flag-custom-classes-container" class="hidden">
+                                    <pre
+                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
+                                    ><code id="latvian-flag-custom-classes" data-code="&lt;latvian-flag class=&quot;w-16 h-8 border-2 border-gray-300&quot; class2=&quot;w-8&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                                </div>
+                            </div>
+
+                            <div class="example-section">
+                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Large Size</h3>
+
+                                <div
+                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
+                                >
+                                    <latvian-flag class="h-12 w-24 rounded" class2="w-12"></latvian-flag>
+                                </div>
+
+                                <div class="mb-2 flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <button
+                                            onclick="toggleCode('latvian-flag-large-size')"
+                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
+                                            title="Toggle code display"
+                                        >
+                                            <svg
+                                                id="latvian-flag-large-size-chevron"
+                                                class="h-3 w-3 transition-transform duration-200"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                            <span id="latvian-flag-large-size-text">Show Code</span>
+                                        </button>
+                                        <button
+                                            onclick="copyCode('latvian-flag-large-size')"
+                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
+                                            title="Copy code"
+                                        >
+                                            Copy Code
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="latvian-flag-large-size-container" class="hidden">
+                                    <pre
+                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
+                                    ><code id="latvian-flag-large-size" data-code="&lt;latvian-flag class=&quot;w-24 h-12 rounded&quot; class2=&quot;w-12&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-16 border-t border-gray-200 bg-white transition-colors dark:border-gray-700 dark:bg-gray-800">
+            <div class="mx-auto max-w-7xl px-4 py-6">
+                <div class="text-center text-gray-600 transition-colors dark:text-gray-400">
+                    <p>Generated with ❤️ by Valksor • <span id="componentCount">1</span> component(s) available</p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // Dark mode functionality
+            function toggleDarkMode() {
+                document.documentElement.classList.toggle('dark');
+                const button = document.getElementById('darkModeToggle');
+                const isDark = document.documentElement.classList.contains('dark');
+                button.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+                localStorage.setItem('darkMode', isDark);
+            }
+
+            // Load dark mode preference
+            if (localStorage.getItem('darkMode') === 'true') {
+                toggleDarkMode();
+            }
+
+            // HTML decoding utility
+            function decodeHtmlAttribute(str) {
+                return str
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&#39;/g, "'")
+                    .replace(/&quot;/g, '"')
+                    .replace(/&amp;/g, '&');
+            }
+
+            // Copy to clipboard functionality
+            function copyToClipboard(text) {
+                navigator.clipboard
+                    .writeText(text)
+                    .then(() => {
+                        showToast('Copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        showToast('Failed to copy');
+                    });
+            }
+
+            function copyCode(elementId) {
+                const codeElement = document.getElementById(elementId);
+                const text = codeElement.dataset.code ? decodeHtmlAttribute(codeElement.dataset.code) : codeElement.textContent;
+                copyToClipboard(text);
+            }
+
+            // Toggle code display functionality
+            function toggleCode(exampleId) {
+                const container = document.getElementById(exampleId + '-container');
+                const chevron = document.getElementById(exampleId + '-chevron');
+                const text = document.getElementById(exampleId + '-text');
+                const codeElement = document.getElementById(exampleId);
+
+                const isHidden = container.classList.contains('hidden');
+
+                if (isHidden) {
+                    // Ensure the code element displays the stored source code
+                    if (codeElement && codeElement.dataset.code) {
+                        codeElement.textContent = decodeHtmlAttribute(codeElement.dataset.code);
+                    }
+
+                    container.classList.remove('hidden');
+                    chevron.style.transform = 'rotate(180deg)';
+                    text.textContent = 'Hide Code';
+                    localStorage.setItem('code-' + exampleId, 'visible');
+                } else {
+                    container.classList.add('hidden');
+                    chevron.style.transform = 'rotate(0deg)';
+                    text.textContent = 'Show Code';
+                    localStorage.setItem('code-' + exampleId, 'hidden');
+                }
+            }
+
+            // Restore code visibility states from localStorage
+            function restoreCodeStates() {
+                const codeContainers = document.querySelectorAll('[id$="-container"]');
+                codeContainers.forEach(container => {
+                    const exampleId = container.id.replace('-container', '');
+                    const savedState = localStorage.getItem('code-' + exampleId);
+
+                    if (savedState === 'visible') {
+                        const chevron = document.getElementById(exampleId + '-chevron');
+                        const text = document.getElementById(exampleId + '-text');
+
+                        container.classList.remove('hidden');
+                        if (chevron) chevron.style.transform = 'rotate(180deg)';
+                        if (text) text.textContent = 'Hide Code';
+                    }
+                });
+            }
+
+            // Toast notification
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-4 right-4 bg-gray-800 dark:bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+                toast.textContent = message;
+                toast.style.opacity = '0';
+
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                }, 100);
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 2000);
+            }
+
+            // Search/filter functionality
+            function filterComponents() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const cards = document.querySelectorAll('.component-card');
+
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('Valksor Component Library loaded successfully');
+                restoreCodeStates();
+            });
+        </script>
+    </body>
+</html>
