@@ -51,7 +51,11 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  npm install
+                  if [ -f package-lock.json ]; then
+                    npm ci
+                  else
+                    npm install
+                  fi
 
             - name: Determine version bump type
               id: version_bump
@@ -159,6 +163,8 @@ jobs:
                   else
                     npm publish --access public
                   fi
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Push version changes
               run: |
