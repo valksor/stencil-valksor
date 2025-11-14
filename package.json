@@ -51,6 +51,7 @@
         "test.watch": "stencil test --spec --watchAll",
         "bump": "npx npm-check-updates -u --reject jest,jest-cli,@types/jest",
         "gen.mjs": "bun ./gen.mjs",
+        "watch.gen": "bun ./scripts/watch-gen.mjs",
         "lint": "./node_modules/.bin/prettier --write"
     },
     "devDependencies": {
