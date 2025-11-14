@@ -27,7 +27,7 @@ export const config: Config = {
     ],
     testing: {
         // The Chrome headless shell binary is only built for x64; use Chromium so ARM runners can execute tests
-        browserHeadless: 'chromium',
+        browserHeadless: 'shell',
     },
     // Enable PostCSS processing for component CSS
     plugins: [

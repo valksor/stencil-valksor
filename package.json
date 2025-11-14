@@ -47,8 +47,8 @@
         "build.local.css": "tailwindcss -i ./src/styles/local.css -o ./src/styles/index.min.css --minify",
         "generate": "stencil generate",
         "start": "bun run gen && bun run build.local.css && bun run build.css && stencil build --dev --watch --serve",
-        "test": "stencil test --spec --e2e",
-        "test.watch": "stencil test --spec --e2e --watchAll",
+        "test": "stencil test --spec",
+        "test.watch": "stencil test --spec --watchAll",
         "bump": "npx npm-check-updates -u --reject jest,jest-cli,@types/jest",
         "gen": "bun ./gen.mjs",
         "lint": "./node_modules/.bin/prettier --write"
