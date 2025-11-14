@@ -1,6 +1,6 @@
 {
     "name": "@valksor/valksor",
-    "version": "0.0.2",
+    "version": "0.0.3-beta.0",
     "description": "Valksor Components",
     "main": "dist/index.cjs.js",
     "module": "dist/index.js",
