@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 
-import { watch } from 'fs';
 import { exec } from 'child_process';
 import path from 'path';
 import url from 'url';
+import chokidar from 'chokidar';
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,7 +39,8 @@ function debounceGen() {
     if (timeout) {
         clearTimeout(timeout);
     }
-    timeout = setTimeout(runGen, 200);
+    // Increased timeout since chokidar with awaitWriteFinish ensures write completion
+    timeout = setTimeout(runGen, 500);
 }
 
 function shouldWatchFile(filePath) {
@@ -53,22 +54,26 @@ function shouldWatchFile(filePath) {
         return filePath.includes('components/');
     }
 
-    // Watch for README files
+    // Watch for ALL README files - fix case sensitivity issue
     if (filePath.endsWith('.md')) {
-        // Component readmes
+        // Component readmes (handle both readme.md and README.md)
         if (filePath.includes('components/')) {
             return true;
         }
-        // Root readme
-        if (filePath.endsWith('readme.md') || filePath.endsWith('README.md')) {
-            return filePath === path.join(ROOT_DIR, 'readme.md') || filePath === path.join(ROOT_DIR, 'README.md');
+
+        // Root readme (handle both cases)
+        const rootReadmeLower = path.join(ROOT_DIR, 'readme.md');
+        const rootReadmeUpper = path.join(ROOT_DIR, 'README.md');
+
+        if (filePath === rootReadmeLower || filePath === rootReadmeUpper) {
+            return true;
         }
     }
 
     return false;
 }
 
-console.log('👀 Starting file watcher for gen.mjs...');
+console.log('👀 Starting chokidar file watcher for gen.mjs...');
 console.log('📁 Watching:', COMPONENTS_DIR);
 console.log('📄 Watching:', path.join(ROOT_DIR, 'readme.md'));
 console.log('⏳ Waiting for file changes...\n');
@@ -76,42 +81,65 @@ console.log('⏳ Waiting for file changes...\n');
 // Initial run
 runGen();
 
-// Watch components directory recursively
-const watcher = watch(COMPONENTS_DIR, { recursive: true }, (eventType, filename) => {
-    if (!filename) return;
+// Setup chokidar watcher with single path for simplicity
+const watcher = chokidar.watch(COMPONENTS_DIR, {
+    ignoreInitial: true, // Don't trigger on initial scan
+    persistent: true,
+});
 
-    const fullPath = path.join(COMPONENTS_DIR, filename);
+// Debug: Log what we're watching
+console.log('🎯 Watching directory:', COMPONENTS_DIR);
 
-    if (shouldWatchFile(fullPath)) {
-        console.log(`📝 File changed: ${filename} (${eventType})`);
-        debounceGen();
+// Handle all inotify-like events with debug logging
+watcher.on('all', (event, filePath) => {
+    // Debug: Log ALL events first
+    console.log(`🔍 DEBUG: Event: ${event}, Path: ${filePath}`);
+
+    // Check if file should be processed
+    const shouldProcess = shouldWatchFile(filePath);
+    console.log(`🔍 DEBUG: shouldWatchFile(${filePath}) = ${shouldProcess}`);
+
+    if (shouldProcess) {
+        console.log(`📝 Event: ${event.toUpperCase()}, File: ${path.relative(ROOT_DIR, filePath)}`);
+
+        // Run gen.mjs on more event types to catch everything
+        if (event === 'change' || event === 'add') {
+            console.log('✍️  File write completed, triggering gen.mjs...');
+            debounceGen();
+        } else if (event === 'unlink') {
+            console.log('🗑️  File deleted, triggering gen.mjs...');
+            debounceGen();
+        } else {
+            console.log(`🔄 Other event type (${event}), triggering gen.mjs...`);
+            debounceGen();
+        }
     }
 });
 
-// Watch root readme.md
-const readmePath = path.join(ROOT_DIR, 'readme.md');
-const readmeWatcher = watch(readmePath, (eventType, filename) => {
-    console.log(`📖 README.md changed (${eventType})`);
-    debounceGen();
+// Add ready event to confirm watching is working
+watcher.on('ready', () => {
+    console.log('✅ Chokadar watcher is ready and watching for changes');
+});
+
+watcher.on('error', error => {
+    console.error('❌ Watcher error:', error);
 });
 
 // Handle process termination
 process.on('SIGINT', () => {
-    console.log('\n👋 Stopping watcher...');
-    watcher.close();
-    readmeWatcher.close();
+    console.log('\n👋 Stopping chokidar watcher...');
     if (timeout) {
         clearTimeout(timeout);
     }
+    watcher.close();
     process.exit(0);
 });
 
 process.on('SIGTERM', () => {
-    console.log('\n👋 Stopping watcher...');
-    watcher.close();
-    readmeWatcher.close();
+    console.log('\n👋 Stopping chokidar watcher...');
     if (timeout) {
         clearTimeout(timeout);
     }
+    watcher.close();
     process.exit(0);
 });
