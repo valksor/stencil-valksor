@@ -1,5 +1,3 @@
-// scripts/generate-index-html.mjs
-
 import { promises as fs } from 'fs';
 import path from 'path';
 import url from 'url';

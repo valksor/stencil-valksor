@@ -45,7 +45,7 @@
         "build": "$npm_execpath run gen.mjs && $npm_execpath run build.local.css && stencil build",
         "build.local.css": "tailwindcss -i ./src/styles/local.css -o ./src/styles/index.min.css --minify",
         "bump": "npx npm-check-updates -u --reject jest,jest-cli,@types/jest",
-        "gen.mjs": "$npm_execpath ./gen.mjs",
+        "gen.mjs": "node ./gen.mjs",
         "generate": "stencil generate",
         "lint": "./node_modules/.bin/prettier --write",
         "start": "$npm_execpath run gen.mjs && $npm_execpath run build.local.css && stencil build --dev --watch --serve",
