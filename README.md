@@ -8,9 +8,9 @@ Valksor is building a growing collection of UI-focused Web Components powered by
 
 ## Components
 
-| Tag              | Description                                                                                                                                 | Notes                                                                    |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `<latvian-flag>` | Renders a horizontal bar representation of the Latvian flag; accepts `class` for the maroon segments and `class2` for the center white bar. | First published component, serves as a reference for upcoming additions. |
+| Tag              | Description                                                                                                                               | Notes                                                                    |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `<latvian-flag>` | Renders Latvia's crimson-white-crimson flag with configurable colors, ratios, and orientation (vertical by default, horizontal optional). | First published component, serves as a reference for upcoming additions. |
 
 More components are on the roadmap—follow the same patterns in `src/components` when adding new ones so they slot into the shared pipeline without additional configuration.
 

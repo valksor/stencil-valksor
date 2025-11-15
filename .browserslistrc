@@ -1,0 +1,16 @@
+# Browser targets for the Valksor web component library
+# Supports modern browsers with good fallback support for older browsers
+
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead
+not IE 11
+
+# Specific versions for broader compatibility
+Chrome >= 88
+Firefox >= 85
+Safari >= 14
+Edge >= 88
+ios >= 14
+Android >= 88

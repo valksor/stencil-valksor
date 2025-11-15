@@ -2,7 +2,6 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
     namespace: 'valksor',
-    globalStyle: 'src/styles/components.min.css',
     outputTargets: [
         {
             type: 'dist',

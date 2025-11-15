@@ -283,7 +283,6 @@ function createHtml(tags, componentInfo = {}, componentExamples = {}) {
     <meta charset="UTF-8" />
     <title>Valksor Component Library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/build/valksor.css" />
     <link rel="stylesheet" href="/styles/index.min.css" />
     <script type="module" src="/build/valksor.esm.js"></script>
     <script nomodule src="/build/valksor.js"></script>

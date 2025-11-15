@@ -1,0 +1,44 @@
+:host {
+    display: inline-block;
+    contain: content;
+}
+
+.latvian-flag-root {
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+.latvian-flag-container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: var(--latvian-flag-outer-color, #960018);
+}
+
+.latvian-flag-container.horizontal {
+    flex-direction: column;
+}
+
+.stripe {
+    flex: 0 0 auto;
+}
+
+.latvian-flag-container.vertical .stripe {
+    height: 100%;
+}
+
+.latvian-flag-container.horizontal .stripe {
+    width: 100%;
+}
+
+.stripe.outer {
+    background-color: var(--latvian-flag-outer-color, #960018);
+}
+
+.stripe.inner {
+    background-color: var(--latvian-flag-inner-color, #ffffff);
+}

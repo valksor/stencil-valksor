@@ -1,18 +1,32 @@
 {
-    "permissions": {
-        "allow": [
-            "Bash(bun run:*)",
-            "mcp__context7__resolve-library-id",
-            "mcp__context7__get-library-docs",
-            "mcp__sequential-thinking__sequentialthinking"
-        ]
-    },
-    "enableAllProjectMcpServers": true,
-    "enabledMcpjsonServers": [
-        "context7",
-        "sequential-thinking",
-        "mcp-compass",
-        "docker-mcp",
-        "browsermcp"
+  "permissions": {
+    "allow": [
+      "Bash(bun run:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__sequential-thinking__sequentialthinking",
+      "WebSearch",
+      "WebFetch(domain:stenciljs.com)",
+      "Bash(find:*)",
+      "WebFetch(domain:github.com)",
+      "mcp__mcp-compass__recommend-mcp-servers",
+      "Bash(NODE_OPTIONS=\"--no-experimental-webstorage\" bun run test:*)",
+      "mcp__browsermcp__browser_navigate",
+      "mcp__browsermcp__browser_screenshot",
+      "mcp__browsermcp__browser_get_console_logs",
+      "Bash(bunx:*)",
+      "Bash(bun list:*)",
+      "Bash(npx update-browserslist-db@latest:*)",
+      "Bash(node:*)",
+      "Bash(npm view:*)"
     ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "context7",
+    "sequential-thinking",
+    "mcp-compass",
+    "docker-mcp",
+    "browsermcp"
+  ]
 }

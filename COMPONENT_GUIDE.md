@@ -68,7 +68,7 @@ Here's the current latvian-flag readme as a working reference:
 ```markdown
 # latvian-flag
 
-Latvia's crimson-white-crimson flag rendered as a zero-dependency web component. The element uses simple `div` stripes, so you can stretch or shrink it entirely through CSS utility classes.
+Latvia's crimson-white-crimson flag rendered as a zero-dependency web component. The element exposes layout and color knobs through properties so you can configure it without depending on global CSS utilities.
 
 ## Examples
 
@@ -76,35 +76,42 @@ Latvia's crimson-white-crimson flag rendered as a zero-dependency web component.
 
 ```html
 <latvian-flag></latvian-flag>
-````
-
-### Custom Classes
-
-```html
-<latvian-flag class="h-8 w-16 border-2 border-gray-300" class2="w-8"></latvian-flag>
 ```
 
-### Large Size
+### Fixed Width With Rounded Corners
 
 ```html
-<latvian-flag class="h-12 w-24 rounded" class2="w-12"></latvian-flag>
+<latvian-flag width="200" border-radius="0.75rem"></latvian-flag>
 ```
 
-### With Border
+### Custom Colors & Stripe Ratio
 
 ```html
-<latvian-flag class="w-32 border-[6px]" class2="w-12 border-[6px] border-white"></latvian-flag>
+<latvian-flag outer-color="#7b0015" inner-color="#f7f2e8" center-stripe-ratio="0.26"></latvian-flag>
+```
+
+### Explicit Height + Border
+
+```html
+<latvian-flag height="56" border-width="6" border-color="#52000c"></latvian-flag>
+```
+
+### Horizontal Orientation
+
+```html
+<latvian-flag orientation="horizontal" width="160" border-radius="0.5rem"></latvian-flag>
 ```
 
 ## Usage Notes
 
-- `class` is applied to the crimson stripes (outer rectangles).
-- `class2` is applied to the white stripe (center rectangle).
-  Target these to control width, border thickness, colors, etc.
+- `orientation` is `vertical` by default; set `orientation="horizontal"` for the classic three-band look.
+- `width` or `height` control the size. When neither is provided the component renders at a compact 2.5rem (Tailwind `h-10`) tall footprint.
+- Color, border, and ratio props keep styling within the shadow root.
+- Width now defaults to the legacy `2px / 1px / 2px` composition (`calc(2px + 1px + 2px)`) whenever both dimensions are omitted, mirroring the old `w-0` + border technique without relying on Tailwind.
 
 <!-- Auto Generated Below -->
 
-````
+```
 
 ## Good vs Bad Examples
 

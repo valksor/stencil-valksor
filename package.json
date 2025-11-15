@@ -1,6 +1,6 @@
 {
     "name": "@valksor/valksor",
-    "version": "0.0.3-beta.0",
+    "version": "0.0.3",
     "description": "Valksor Components",
     "main": "dist/index.cjs.js",
     "module": "dist/index.js",
@@ -42,19 +42,17 @@
         "loader/"
     ],
     "scripts": {
-        "build": "bun run gen.mjs && bun run build.local.css && bun run build.css && stencil build",
-        "build.css": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/components.min.css --minify",
+        "build": "$npm_execpath run gen.mjs && $npm_execpath run build.local.css && stencil build",
         "build.local.css": "tailwindcss -i ./src/styles/local.css -o ./src/styles/index.min.css --minify",
         "bump": "npx npm-check-updates -u --reject jest,jest-cli,@types/jest",
-        "gen.mjs": "bun ./gen.mjs",
+        "gen.mjs": "$npm_execpath ./gen.mjs",
         "generate": "stencil generate",
         "lint": "./node_modules/.bin/prettier --write",
-        "start": "bun run gen.mjs && bun run build.local.css && bun run build.css && stencil build --dev --watch --serve",
-        "start.watch": "concurrently \"bun run watch.gen\" \"bun run watch.tailwind\" \"bun run watch.tailwind.local\" \"stencil build --dev --watch --serve\"",
-        "test": "stencil test --spec",
-        "test.watch": "stencil test --spec --watchAll",
-        "watch.gen": "bun ./scripts/watch-gen.mjs",
-        "watch.tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/components.min.css --minify --watch",
+        "start": "$npm_execpath run gen.mjs && $npm_execpath run build.local.css && stencil build --dev --watch --serve",
+        "start.watch": "concurrently \"$npm_execpath run watch.gen\" \"$npm_execpath run watch.tailwind.local\" \"stencil build --dev --watch --serve\"",
+        "test": "NODE_OPTIONS=--no-experimental-webstorage stencil test --spec",
+        "test.watch": "NODE_OPTIONS=--no-experimental-webstorage stencil test --spec --watchAll",
+        "watch.gen": "$npm_execpath ./scripts/watch-gen.mjs",
         "watch.tailwind.local": "tailwindcss -i ./src/styles/local.css -o ./src/styles/index.min.css --minify --watch"
     },
     "devDependencies": {
@@ -75,7 +73,6 @@
     },
     "license": "BSD-3-Clause",
     "dependencies": {
-        "caniuse-lite": "latest",
-        "tailwind-merge": "^3.4.0"
+        "caniuse-lite": "^1.0.30001754"
     }
 }

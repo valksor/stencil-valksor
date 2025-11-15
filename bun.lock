@@ -5,8 +5,7 @@
     "": {
       "name": "@valksor/valksor",
       "dependencies": {
-        "caniuse-lite": "latest",
-        "tailwind-merge": "^3.4.0",
+        "caniuse-lite": "^1.0.30001754",
       },
       "devDependencies": {
         "@stencil/core": "^4.38.3",
@@ -664,8 +663,6 @@
     "supports-color": ["supports-color@8.1.1", "", { "dependencies": { "has-flag": "^4.0.0" } }, ""],
 
     "supports-preserve-symlinks-flag": ["supports-preserve-symlinks-flag@1.0.0", "", {}, ""],
-
-    "tailwind-merge": ["tailwind-merge@3.4.0", "", {}, "sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g=="],
 
     "tailwindcss": ["tailwindcss@4.1.17", "", {}, ""],
 
