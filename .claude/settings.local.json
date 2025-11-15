@@ -18,7 +18,9 @@
       "Bash(bun list:*)",
       "Bash(npx update-browserslist-db@latest:*)",
       "Bash(node:*)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(npm config list:*)",
+      "Bash(npm --version:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
