@@ -8,7 +8,6 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = __dirname;
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 const COMPONENTS_DIR = path.join(SRC_DIR, 'components');
-const README_FILE = path.join(ROOT_DIR, 'readme.md');
 const OUTPUT_FILE = path.join(SRC_DIR, 'index.html');
 
 // crude-ish, but works for typical Stencil components
@@ -33,37 +32,6 @@ async function extractTagsFromFile(filePath) {
         tags.push(match[1]);
     }
     return tags;
-}
-
-async function parseReadmeComponents() {
-    try {
-        const readmeContent = await fs.readFile(README_FILE, 'utf8');
-        const componentsTableMatch = readmeContent.match(/\| Tag[^\n]*\n(?:\|[^\n]*\n)*/g);
-
-        if (!componentsTableMatch) {
-            return {};
-        }
-
-        const components = {};
-        const lines = componentsTableMatch[0].split('\n').slice(2); // Skip header and separator
-
-        for (const line of lines) {
-            if (line.trim() && line.includes('|')) {
-                const columns = line.split('|').map(col => col.trim());
-                if (columns.length >= 3) {
-                    const tag = columns[1].replace(/[<>]/g, '');
-                    const description = columns[2];
-                    const notes = columns[3] || '';
-                    components[tag] = { description, notes };
-                }
-            }
-        }
-
-        return components;
-    } catch (err) {
-        console.warn('Could not parse readme.md:', err.message);
-        return {};
-    }
 }
 
 async function findAllComponentTags() {
@@ -100,9 +68,33 @@ function decodeHtmlAttribute(str) {
         .replace(/&amp;/g, '&');
 }
 
+function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function convertMarkdownToHtml(markdown) {
+    if (!markdown) return '';
+
+    return (
+        markdown
+            // Convert code blocks (inline)
+            .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">$1</code>')
+            // Convert bold text
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            // Convert italic text
+            .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+            // Convert line breaks to <br>
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>')
+            // Wrap in paragraphs if not already wrapped
+            .replace(/^/, '<p>')
+            .replace(/$/, '</p>')
+    );
+}
+
 async function parseComponentExamples() {
     try {
-        const examples = {};
+        const componentData = {};
 
         // Get all component directories
         const componentDirs = await fs.readdir(COMPONENTS_DIR, { withFileTypes: true });
@@ -113,18 +105,17 @@ async function parseComponentExamples() {
 
             try {
                 const readmeContent = await fs.readFile(componentReadmePath, 'utf8');
-                const componentExamples = extractExamplesFromReadme(readmeContent);
+                const parsedData = extractExamplesFromReadme(readmeContent);
 
-                if (componentExamples.length > 0) {
-                    examples[componentDir] = { examples: componentExamples };
-                }
+                // Store all component data (description, usage notes, examples)
+                componentData[componentDir] = parsedData;
             } catch (err) {
                 // Component readme doesn't exist or can't be read - skip
                 console.debug(`No readme found for component: ${componentDir}`);
             }
         }
 
-        return examples;
+        return componentData;
     } catch (err) {
         console.warn('Could not parse component examples:', err.message);
         return {};
@@ -133,34 +124,55 @@ async function parseComponentExamples() {
 
 function extractExamplesFromReadme(readmeContent) {
     const examples = [];
+    let description = '';
+    let usageNotes = '';
+
+    // Extract description from the intro paragraph (between title and first ## section)
+    const descriptionMatch = readmeContent.match(/^#[^\n]+\n\n([\s\S]*?)(?=\n## |\Z)/);
+    if (descriptionMatch) {
+        description = descriptionMatch[1].trim();
+    }
+
+    // Extract usage notes from the Usage Notes section, stopping before any ### subsections or next ##
+    const usageNotesMatch = readmeContent.match(/## Usage Notes\s*\n([\s\S]*?)(?=\n### |\n## |\n<!-- Auto Generated Below|\Z)/);
+    if (usageNotesMatch) {
+        usageNotes = usageNotesMatch[1].trim();
+        // Clean up usage notes - remove excessive whitespace and format lists better
+        usageNotes = usageNotes
+            .replace(/^\s*[-*]\s+/gm, '• ') // Normalize list items
+            .replace(/\n{3,}/g, '\n\n') // Reduce excessive line breaks
+            .trim();
+    }
 
     // Find the Examples section
     const examplesSectionMatch = readmeContent.match(/## Examples\s*\n([\s\S]*?)(?=\n## |\n<!-- Auto Generated Below|\Z)/);
 
-    if (!examplesSectionMatch) {
-        return examples;
-    }
+    if (examplesSectionMatch) {
+        const examplesSection = examplesSectionMatch[1];
 
-    const examplesSection = examplesSectionMatch[1];
+        // Extract individual examples using a pattern that captures title and code block
+        const examplePattern = /###? ([^\n]+)\s*\n[\s\S]*?```html\s*\n([\s\S]*?)```/g;
+        let match;
 
-    // Extract individual examples using a pattern that captures title and code block
-    const examplePattern = /###? ([^\n]+)\s*\n[\s\S]*?```html\s*\n([\s\S]*?)```/g;
-    let match;
+        while ((match = examplePattern.exec(examplesSection)) !== null) {
+            const title = match[1].trim();
+            const code = match[2].trim();
 
-    while ((match = examplePattern.exec(examplesSection)) !== null) {
-        const title = match[1].trim();
-        const code = match[2].trim();
-
-        if (title && code) {
-            examples.push({
-                title,
-                code,
-                html: code, // Use same code for HTML preview
-            });
+            if (title && code) {
+                examples.push({
+                    title,
+                    code,
+                    html: code, // Use same code for HTML preview
+                });
+            }
         }
     }
 
-    return examples;
+    return {
+        description,
+        usageNotes,
+        examples,
+    };
 }
 
 function createHtml(tags, componentInfo = {}, componentExamples = {}) {
@@ -187,8 +199,10 @@ function createHtml(tags, componentInfo = {}, componentExamples = {}) {
 
     const componentsHtml = tags
         .map(tag => {
-            const info = componentInfo[tag] || {};
-            const examples = componentExamples[tag]?.examples || [
+            const componentData = componentInfo[tag] || {};
+            const description = componentData.description || '';
+            const usageNotes = componentData.usageNotes || '';
+            const examples = componentData.examples || [
                 {
                     title: 'Default',
                     html: `<${tag}></${tag}>`,
@@ -218,11 +232,11 @@ function createHtml(tags, componentInfo = {}, componentExamples = {}) {
           </div>
 
           ${
-              info.description
+              description
                   ? `
           <div class="mb-4">
-            <p class="text-gray-700 dark:text-gray-300 transition-colors">${info.description}</p>
-            ${info.notes ? `<p class="text-sm text-gray-500 dark:text-gray-400 mt-2 transition-colors">${info.notes}</p>` : ''}
+            <p class="text-gray-700 dark:text-gray-300 transition-colors">${escapeHtml(description)}</p>
+            ${usageNotes ? `<div class="text-sm text-gray-500 dark:text-gray-400 mt-2 transition-colors">${convertMarkdownToHtml(usageNotes)}</div>` : ''}
           </div>
           `
                   : ''
@@ -475,15 +489,14 @@ function createHtml(tags, componentInfo = {}, componentExamples = {}) {
 
 async function run() {
     console.log('Generating src/index.html from Stencil components...');
-    console.log('Parsing component information from readme.md...');
+    console.log('Parsing component data from component readmes...');
 
-    const [tags, componentInfo, componentExamples] = await Promise.all([findAllComponentTags(), parseReadmeComponents(), parseComponentExamples()]);
+    const [tags, componentData] = await Promise.all([findAllComponentTags(), parseComponentExamples()]);
 
     console.log(`Found ${tags.length} components:`, tags);
-    console.log(`Parsed information for ${Object.keys(componentInfo).length} components from readme`);
-    console.log(`Parsed examples for ${Object.keys(componentExamples).length} components from readme`);
+    console.log(`Parsed data for ${Object.keys(componentData).length} components from component readmes`);
 
-    const html = createHtml(tags, componentInfo, componentExamples);
+    const html = createHtml(tags, componentData, componentData);
     await fs.writeFile(OUTPUT_FILE, html, 'utf8');
     console.log(`Generated enhanced ${OUTPUT_FILE} with Tailwind styling and interactive features`);
 }

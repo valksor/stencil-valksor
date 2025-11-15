@@ -68,6 +68,44 @@
                             </button>
                         </div>
 
+                        <div class="mb-4">
+                            <p class="text-gray-700 transition-colors dark:text-gray-300">
+                                Latvia&#39;s crimson-white-crimson flag rendered as a zero-dependency web component. The element exposes layout, color, and orientation knobs
+                                through properties so you can configure it without depending on global CSS utilities.
+                            </p>
+                            <div class="mt-2 text-sm text-gray-500 transition-colors dark:text-gray-400">
+                                <p>
+                                    • The default layout is <strong>vertical</strong> (maroon bands run left/right). Set
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">orientation="horizontal"</code> to display the traditional horizontal
+                                    stripes.<br />• <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">width</code> controls the width directly. Numbers are
+                                    treated as pixels; strings can include any CSS units (e.g. <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">12rem</code>,
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">60%</code>). When both
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">width</code> and
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">height</code> are omitted, the component defaults to an overall width of
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">calc(2px + 1px + 2px)</code> so the visible stripes measure red 2px,
+                                    white 1px, red 2px like the original Tailwind setup.<br />•
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">height</code> controls the cross-axis dimension. Leaving it unset
+                                    preserves the compact 2.5rem (Tailwind <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">h-10</code>) footprint; set it (or
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">width</code>) alongside
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">aspect-ratio</code> for larger badges.<br />•
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">outer-color</code> and
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">inner-color</code> change the maroon and center stripe fills.<br />•
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">center-stripe-ratio</code> clamps between
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">0.05</code> and
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">0.6</code> to keep the flag proportional.<br />•
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">border-radius</code>,
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">border-width</code>, and
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">border-color</code> apply directly to the flag container for badge or
+                                    patch styles.<br />• You can still use regular CSS on the host element (e.g.
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">latvian-flag { display: block; }</code>) for layout concerns; the stripes
+                                    remain encapsulated in the shadow root.<br />• To mirror the old Tailwind defaults, the fallback size matches
+                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">h-10</code> (height) with the width derived from the aspect ratio
+                                    (instead of the previous <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">w-0</code> class that required manual
+                                    overrides).
+                                </p>
+                            </div>
+                        </div>
+
                         <div class="space-y-4">
                             <div class="example-section">
                                 <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Default</h3>

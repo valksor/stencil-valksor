@@ -1,5 +1,6 @@
 /* Tailwind CSS 4 Configuration */
 @import 'tailwindcss' source(none);
+@source '../index.html';
 
 @theme {
     --color-latvian: #960018;
@@ -8,4 +9,6 @@
 /* Enable class-based dark mode instead of media queries */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@source '../index.html';
+:root {
+    scrollbar-color: color-mix(in oklch, var(--color-latvian) 100%, transparent) transparent;
+}
