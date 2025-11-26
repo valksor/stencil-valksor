@@ -1,520 +1,557 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Valksor Component Library</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/styles/index.min.css" />
-        <script type="module" src="/build/valksor.esm.js"></script>
-        <script nomodule src="/build/valksor.js"></script>
-        <link rel="icon" href="favicon.ico" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>Valksor Component Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/index.min.css" />
+    <script type="module" src="/build/valksor.esm.js"></script>
+    <script nomodule src="/build/valksor.js"></script>
+    <link rel="icon" href="favicon.ico">
     </head>
-    <body class="min-h-screen bg-gray-50 transition-colors dark:bg-gray-900">
-        <!-- Header -->
-        <header class="border-b border-gray-200 bg-white shadow-sm transition-colors dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 py-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900 transition-colors dark:text-gray-100">Valksor Component Library</h1>
-                        <p class="mt-2 text-gray-600 transition-colors dark:text-gray-400">Interactive preview of available web components</p>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <input
-                            type="text"
-                            id="searchInput"
-                            placeholder="Search components..."
-                            class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
-                            onkeyup="filterComponents()"
-                        />
-                        <button
-                            id="darkModeToggle"
-                            onclick="toggleDarkMode()"
-                            class="rounded-lg bg-gray-800 px-4 py-2 text-white transition-colors hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
-                        >
-                            Dark Mode
-                        </button>
-                    </div>
+  <body class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 transition-colors">Valksor Component Library</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-2 transition-colors">Interactive preview of available web components</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search components..."
+              class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-colors"
+              onkeyup="filterComponents()"
+            />
+            <button
+              id="darkModeToggle"
+              onclick="toggleDarkMode()"
+              class="px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+            >
+              Dark Mode
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 transition-colors">
+          <h2 class="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-2 transition-colors">Welcome to Valksor Components</h2>
+          <p class="text-blue-800 dark:text-blue-200 transition-colors">
+            This interactive showcase demonstrates all available components. Each card shows different usage examples
+            with live previews and ready-to-copy code snippets.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8">
+        
+      <div class="component-card bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors">
+              <code class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1 rounded text-lg transition-colors">&lt;latvian-flag&gt;</code>
+            </h2>
+            <button
+              onclick="copyToClipboard('latvian-flag')"
+              class="text-sm bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors"
+              title="Copy tag name"
+            >
+              Copy
+            </button>
+          </div>
+
+          
+          <div class="mb-4">
+            <p class="text-gray-700 dark:text-gray-300 transition-colors">Latvia&#39;s crimson-white-crimson flag rendered as a zero-dependency web component. The element exposes layout, color, and orientation knobs through properties so you can configure it without depending on global CSS utilities.</p>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mt-2 transition-colors"><p>• The default layout is <strong>vertical</strong> (maroon bands run left/right). Set <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">orientation="horizontal"</code> to display the traditional horizontal stripes.<br>• <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">width</code> controls the width directly. Numbers are treated as pixels; strings can include any CSS units (e.g. <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">12rem</code>, <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">60%</code>). When both <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">width</code> and <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">height</code> are omitted, the component defaults to an overall width of <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">calc(2px + 1px + 2px)</code> so the visible stripes measure red 2px, white 1px, red 2px like the original Tailwind setup.<br>• <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">height</code> controls the cross-axis dimension. Leaving it unset preserves the compact 2.5rem (Tailwind <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">h-10</code>) footprint; set it (or <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">width</code>) alongside <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">aspect-ratio</code> for larger badges.<br>• <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">outer-color</code> and <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">inner-color</code> change the maroon and center stripe fills.<br>• <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">center-stripe-ratio</code> clamps between <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">0.05</code> and <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">0.6</code> to keep the flag proportional.<br>• <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">border-radius</code>, <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">border-width</code>, and <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">border-color</code> apply directly to the flag container for badge or patch styles.<br>• You can still use regular CSS on the host element (e.g. <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">latvian-flag { display: block; }</code>) for layout concerns; the stripes remain encapsulated in the shadow root.<br>• To mirror the old Tailwind defaults, the fallback size matches <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">h-10</code> (height) with the width derived from the aspect ratio (instead of the previous <code class="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm">w-0</code> class that required manual overrides).</p></div>
+          </div>
+          
+
+          <div class="space-y-4">
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Default</h3>
+
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <latvian-flag></latvian-flag>
                 </div>
-            </div>
-        </header>
 
-        <!-- Main Content -->
-        <main class="mx-auto max-w-7xl px-4 py-8">
-            <div class="mb-8">
-                <div class="rounded-lg border border-blue-200 bg-blue-50 p-6 transition-colors dark:border-blue-800 dark:bg-blue-900/20">
-                    <h2 class="mb-2 text-xl font-semibold text-blue-900 transition-colors dark:text-blue-100">Welcome to Valksor Components</h2>
-                    <p class="text-blue-800 transition-colors dark:text-blue-200">
-                        This interactive showcase demonstrates all available components. Each card shows different usage examples with live previews and ready-to-copy code
-                        snippets.
-                    </p>
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('latvian-flag-default')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="latvian-flag-default-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="latvian-flag-default-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('latvian-flag-default')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
                 </div>
-            </div>
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] md:gap-4">
-                <div
-                    class="component-card overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
-                >
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center justify-between">
-                            <h2 class="text-2xl font-bold text-gray-900 transition-colors dark:text-gray-100">
-                                <code class="rounded bg-gray-100 px-3 py-1 text-lg text-gray-900 transition-colors dark:bg-gray-700 dark:text-gray-100">&lt;latvian-flag&gt;</code>
-                            </h2>
-                            <button
-                                onclick="copyToClipboard('latvian-flag')"
-                                class="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-600"
-                                title="Copy tag name"
-                            >
-                                Copy
-                            </button>
-                        </div>
-
-                        <div class="mb-4">
-                            <p class="text-gray-700 transition-colors dark:text-gray-300">
-                                Latvia&#39;s crimson-white-crimson flag rendered as a zero-dependency web component. The element exposes layout, color, and orientation knobs
-                                through properties so you can configure it without depending on global CSS utilities.
-                            </p>
-                            <div class="mt-2 text-sm text-gray-500 transition-colors dark:text-gray-400">
-                                <p>
-                                    • The default layout is <strong>vertical</strong> (maroon bands run left/right). Set
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">orientation="horizontal"</code> to display the traditional horizontal
-                                    stripes.<br />• <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">width</code> controls the width directly. Numbers are
-                                    treated as pixels; strings can include any CSS units (e.g. <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">12rem</code>,
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">60%</code>). When both
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">width</code> and
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">height</code> are omitted, the component defaults to an overall width of
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">calc(2px + 1px + 2px)</code> so the visible stripes measure red 2px,
-                                    white 1px, red 2px like the original Tailwind setup.<br />•
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">height</code> controls the cross-axis dimension. Leaving it unset
-                                    preserves the compact 2.5rem (Tailwind <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">h-10</code>) footprint; set it (or
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">width</code>) alongside
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">aspect-ratio</code> for larger badges.<br />•
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">outer-color</code> and
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">inner-color</code> change the maroon and center stripe fills.<br />•
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">center-stripe-ratio</code> clamps between
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">0.05</code> and
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">0.6</code> to keep the flag proportional.<br />•
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">border-radius</code>,
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">border-width</code>, and
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">border-color</code> apply directly to the flag container for badge or
-                                    patch styles.<br />• You can still use regular CSS on the host element (e.g.
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">latvian-flag { display: block; }</code>) for layout concerns; the stripes
-                                    remain encapsulated in the shadow root.<br />• To mirror the old Tailwind defaults, the fallback size matches
-                                    <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">h-10</code> (height) with the width derived from the aspect ratio
-                                    (instead of the previous <code class="rounded bg-gray-100 px-1 py-0.5 text-sm dark:bg-gray-700">w-0</code> class that required manual
-                                    overrides).
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <div class="example-section">
-                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Default</h3>
-
-                                <div
-                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
-                                >
-                                    <latvian-flag></latvian-flag>
-                                </div>
-
-                                <div class="mb-2 flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            onclick="toggleCode('latvian-flag-default')"
-                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
-                                            title="Toggle code display"
-                                        >
-                                            <svg
-                                                id="latvian-flag-default-chevron"
-                                                class="h-3 w-3 transition-transform duration-200"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            <span id="latvian-flag-default-text">Show Code</span>
-                                        </button>
-                                        <button
-                                            onclick="copyCode('latvian-flag-default')"
-                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
-                                            title="Copy code"
-                                        >
-                                            Copy Code
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="latvian-flag-default-container" class="hidden">
-                                    <pre
-                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
-                                    ><code id="latvian-flag-default" data-code="&lt;latvian-flag&gt;&lt;/latvian-flag&gt;"></code></pre>
-                                </div>
-                            </div>
-
-                            <div class="example-section">
-                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Fixed Width With Rounded Corners</h3>
-
-                                <div
-                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
-                                >
-                                    <latvian-flag width="120" border-radius="0.75rem"></latvian-flag>
-                                </div>
-
-                                <div class="mb-2 flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            onclick="toggleCode('latvian-flag-fixed-width-with-rounded-corners')"
-                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
-                                            title="Toggle code display"
-                                        >
-                                            <svg
-                                                id="latvian-flag-fixed-width-with-rounded-corners-chevron"
-                                                class="h-3 w-3 transition-transform duration-200"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            <span id="latvian-flag-fixed-width-with-rounded-corners-text">Show Code</span>
-                                        </button>
-                                        <button
-                                            onclick="copyCode('latvian-flag-fixed-width-with-rounded-corners')"
-                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
-                                            title="Copy code"
-                                        >
-                                            Copy Code
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="latvian-flag-fixed-width-with-rounded-corners-container" class="hidden">
-                                    <pre
-                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
-                                    ><code id="latvian-flag-fixed-width-with-rounded-corners" data-code="&lt;latvian-flag width=&quot;120&quot; border-radius=&quot;0.75rem&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
-                                </div>
-                            </div>
-
-                            <div class="example-section">
-                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Custom Colors & Stripe Ratio</h3>
-
-                                <div
-                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
-                                >
-                                    <latvian-flag outer-color="#7b0015" inner-color="#f7f2e8" center-stripe-ratio="1.26"></latvian-flag>
-                                </div>
-
-                                <div class="mb-2 flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            onclick="toggleCode('latvian-flag-custom-colors-&-stripe-ratio')"
-                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
-                                            title="Toggle code display"
-                                        >
-                                            <svg
-                                                id="latvian-flag-custom-colors-&-stripe-ratio-chevron"
-                                                class="h-3 w-3 transition-transform duration-200"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            <span id="latvian-flag-custom-colors-&-stripe-ratio-text">Show Code</span>
-                                        </button>
-                                        <button
-                                            onclick="copyCode('latvian-flag-custom-colors-&-stripe-ratio')"
-                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
-                                            title="Copy code"
-                                        >
-                                            Copy Code
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="latvian-flag-custom-colors-&-stripe-ratio-container" class="hidden">
-                                    <pre
-                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
-                                    ><code id="latvian-flag-custom-colors-&-stripe-ratio" data-code="&lt;latvian-flag outer-color=&quot;#7b0015&quot; inner-color=&quot;#f7f2e8&quot; center-stripe-ratio=&quot;1.26&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
-                                </div>
-                            </div>
-
-                            <div class="example-section">
-                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Explicit Height + Border</h3>
-
-                                <div
-                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
-                                >
-                                    <latvian-flag height="56" border-width="6" border-color="#52000c"></latvian-flag>
-                                </div>
-
-                                <div class="mb-2 flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            onclick="toggleCode('latvian-flag-explicit-height-+-border')"
-                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
-                                            title="Toggle code display"
-                                        >
-                                            <svg
-                                                id="latvian-flag-explicit-height-+-border-chevron"
-                                                class="h-3 w-3 transition-transform duration-200"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            <span id="latvian-flag-explicit-height-+-border-text">Show Code</span>
-                                        </button>
-                                        <button
-                                            onclick="copyCode('latvian-flag-explicit-height-+-border')"
-                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
-                                            title="Copy code"
-                                        >
-                                            Copy Code
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="latvian-flag-explicit-height-+-border-container" class="hidden">
-                                    <pre
-                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
-                                    ><code id="latvian-flag-explicit-height-+-border" data-code="&lt;latvian-flag height=&quot;56&quot; border-width=&quot;6&quot; border-color=&quot;#52000c&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
-                                </div>
-                            </div>
-
-                            <div class="example-section">
-                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Altered Aspect Ratio (Badge Style)</h3>
-
-                                <div
-                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
-                                >
-                                    <latvian-flag width="160" aspect-ratio="1.6" border-radius="999px"></latvian-flag>
-                                </div>
-
-                                <div class="mb-2 flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            onclick="toggleCode('latvian-flag-altered-aspect-ratio-(badge-style)')"
-                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
-                                            title="Toggle code display"
-                                        >
-                                            <svg
-                                                id="latvian-flag-altered-aspect-ratio-(badge-style)-chevron"
-                                                class="h-3 w-3 transition-transform duration-200"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            <span id="latvian-flag-altered-aspect-ratio-(badge-style)-text">Show Code</span>
-                                        </button>
-                                        <button
-                                            onclick="copyCode('latvian-flag-altered-aspect-ratio-(badge-style)')"
-                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
-                                            title="Copy code"
-                                        >
-                                            Copy Code
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="latvian-flag-altered-aspect-ratio-(badge-style)-container" class="hidden">
-                                    <pre
-                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
-                                    ><code id="latvian-flag-altered-aspect-ratio-(badge-style)" data-code="&lt;latvian-flag width=&quot;160&quot; aspect-ratio=&quot;1.6&quot; border-radius=&quot;999px&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
-                                </div>
-                            </div>
-
-                            <div class="example-section">
-                                <h3 class="mb-3 text-lg font-semibold text-gray-800 transition-colors dark:text-gray-200">Horizontal Orientation</h3>
-
-                                <div
-                                    class="mb-3 flex min-h-[60px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors dark:border-gray-600 dark:bg-gray-700"
-                                >
-                                    <latvian-flag orientation="horizontal" height="140" border-radius="0.5rem" center-stripe-ratio="0.25"></latvian-flag>
-                                </div>
-
-                                <div class="mb-2 flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            onclick="toggleCode('latvian-flag-horizontal-orientation')"
-                                            class="flex items-center space-x-1 rounded bg-gray-600 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-500"
-                                            title="Toggle code display"
-                                        >
-                                            <svg
-                                                id="latvian-flag-horizontal-orientation-chevron"
-                                                class="h-3 w-3 transition-transform duration-200"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                            <span id="latvian-flag-horizontal-orientation-text">Show Code</span>
-                                        </button>
-                                        <button
-                                            onclick="copyCode('latvian-flag-horizontal-orientation')"
-                                            class="rounded bg-gray-700 px-3 py-1 text-xs text-white transition-colors hover:bg-gray-600"
-                                            title="Copy code"
-                                        >
-                                            Copy Code
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div id="latvian-flag-horizontal-orientation-container" class="hidden">
-                                    <pre
-                                        class="overflow-x-auto rounded-lg bg-gray-900 p-3 text-sm text-gray-100 transition-all duration-200"
-                                    ><code id="latvian-flag-horizontal-orientation" data-code="&lt;latvian-flag orientation=&quot;horizontal&quot; height=&quot;140&quot; border-radius=&quot;0.5rem&quot; center-stripe-ratio=&quot;0.25&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="latvian-flag-default-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="latvian-flag-default" data-code="&lt;latvian-flag&gt;&lt;/latvian-flag&gt;"></code></pre>
                 </div>
-            </div>
-        </main>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Fixed Width With Rounded Corners</h3>
 
-        <!-- Footer -->
-        <footer class="mt-16 border-t border-gray-200 bg-white transition-colors dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 py-6">
-                <div class="text-center text-gray-600 transition-colors dark:text-gray-400">
-                    <p>Generated with ❤️ by Valksor • <span id="componentCount">1</span> component(s) available</p>
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <latvian-flag width="120" border-radius="0.75rem"></latvian-flag>
                 </div>
-            </div>
-        </footer>
 
-        <script>
-            // Dark mode functionality
-            function toggleDarkMode() {
-                document.documentElement.classList.toggle('dark');
-                const button = document.getElementById('darkModeToggle');
-                const isDark = document.documentElement.classList.contains('dark');
-                button.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-                localStorage.setItem('darkMode', isDark);
-            }
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('latvian-flag-fixed-width-with-rounded-corners')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="latvian-flag-fixed-width-with-rounded-corners-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="latvian-flag-fixed-width-with-rounded-corners-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('latvian-flag-fixed-width-with-rounded-corners')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
 
-            // Load dark mode preference
-            if (localStorage.getItem('darkMode') === 'true') {
-                toggleDarkMode();
-            }
+                <div id="latvian-flag-fixed-width-with-rounded-corners-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="latvian-flag-fixed-width-with-rounded-corners" data-code="&lt;latvian-flag width=&quot;120&quot; border-radius=&quot;0.75rem&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                </div>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Custom Colors & Stripe Ratio</h3>
 
-            // HTML decoding utility
-            function decodeHtmlAttribute(str) {
-                return str
-                    .replace(/&lt;/g, '<')
-                    .replace(/&gt;/g, '>')
-                    .replace(/&#39;/g, "'")
-                    .replace(/&quot;/g, '"')
-                    .replace(/&amp;/g, '&');
-            }
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <latvian-flag outer-color="#7b0015" inner-color="#f7f2e8" center-stripe-ratio="1.26"></latvian-flag>
+                </div>
 
-            // Copy to clipboard functionality
-            function copyToClipboard(text) {
-                navigator.clipboard
-                    .writeText(text)
-                    .then(() => {
-                        showToast('Copied to clipboard!');
-                    })
-                    .catch(err => {
-                        console.error('Failed to copy: ', err);
-                        showToast('Failed to copy');
-                    });
-            }
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('latvian-flag-custom-colors-&-stripe-ratio')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="latvian-flag-custom-colors-&-stripe-ratio-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="latvian-flag-custom-colors-&-stripe-ratio-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('latvian-flag-custom-colors-&-stripe-ratio')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
 
-            function copyCode(elementId) {
-                const codeElement = document.getElementById(elementId);
-                const text = codeElement.dataset.code ? decodeHtmlAttribute(codeElement.dataset.code) : codeElement.textContent;
-                copyToClipboard(text);
-            }
+                <div id="latvian-flag-custom-colors-&-stripe-ratio-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="latvian-flag-custom-colors-&-stripe-ratio" data-code="&lt;latvian-flag outer-color=&quot;#7b0015&quot; inner-color=&quot;#f7f2e8&quot; center-stripe-ratio=&quot;1.26&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                </div>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Explicit Height + Border</h3>
 
-            // Toggle code display functionality
-            function toggleCode(exampleId) {
-                const container = document.getElementById(exampleId + '-container');
-                const chevron = document.getElementById(exampleId + '-chevron');
-                const text = document.getElementById(exampleId + '-text');
-                const codeElement = document.getElementById(exampleId);
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <latvian-flag height="56" border-width="6" border-color="#52000c"></latvian-flag>
+                </div>
 
-                const isHidden = container.classList.contains('hidden');
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('latvian-flag-explicit-height-+-border')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="latvian-flag-explicit-height-+-border-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="latvian-flag-explicit-height-+-border-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('latvian-flag-explicit-height-+-border')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
 
-                if (isHidden) {
-                    // Ensure the code element displays the stored source code
-                    if (codeElement && codeElement.dataset.code) {
-                        codeElement.textContent = decodeHtmlAttribute(codeElement.dataset.code);
-                    }
+                <div id="latvian-flag-explicit-height-+-border-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="latvian-flag-explicit-height-+-border" data-code="&lt;latvian-flag height=&quot;56&quot; border-width=&quot;6&quot; border-color=&quot;#52000c&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                </div>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Altered Aspect Ratio (Badge Style)</h3>
 
-                    container.classList.remove('hidden');
-                    chevron.style.transform = 'rotate(180deg)';
-                    text.textContent = 'Hide Code';
-                    localStorage.setItem('code-' + exampleId, 'visible');
-                } else {
-                    container.classList.add('hidden');
-                    chevron.style.transform = 'rotate(0deg)';
-                    text.textContent = 'Show Code';
-                    localStorage.setItem('code-' + exampleId, 'hidden');
-                }
-            }
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <latvian-flag width="160" aspect-ratio="1.6" border-radius="999px"></latvian-flag>
+                </div>
 
-            // Restore code visibility states from localStorage
-            function restoreCodeStates() {
-                const codeContainers = document.querySelectorAll('[id$="-container"]');
-                codeContainers.forEach(container => {
-                    const exampleId = container.id.replace('-container', '');
-                    const savedState = localStorage.getItem('code-' + exampleId);
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('latvian-flag-altered-aspect-ratio-(badge-style)')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="latvian-flag-altered-aspect-ratio-(badge-style)-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="latvian-flag-altered-aspect-ratio-(badge-style)-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('latvian-flag-altered-aspect-ratio-(badge-style)')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
 
-                    if (savedState === 'visible') {
-                        const chevron = document.getElementById(exampleId + '-chevron');
-                        const text = document.getElementById(exampleId + '-text');
+                <div id="latvian-flag-altered-aspect-ratio-(badge-style)-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="latvian-flag-altered-aspect-ratio-(badge-style)" data-code="&lt;latvian-flag width=&quot;160&quot; aspect-ratio=&quot;1.6&quot; border-radius=&quot;999px&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                </div>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Horizontal Orientation</h3>
 
-                        container.classList.remove('hidden');
-                        if (chevron) chevron.style.transform = 'rotate(180deg)';
-                        if (text) text.textContent = 'Hide Code';
-                    }
-                });
-            }
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <latvian-flag orientation="horizontal" height="140" border-radius="0.5rem" center-stripe-ratio="0.25"></latvian-flag>
+                </div>
 
-            // Toast notification
-            function showToast(message) {
-                const toast = document.createElement('div');
-                toast.className = 'fixed bottom-4 right-4 bg-gray-800 dark:bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300';
-                toast.textContent = message;
-                toast.style.opacity = '0';
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('latvian-flag-horizontal-orientation')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="latvian-flag-horizontal-orientation-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="latvian-flag-horizontal-orientation-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('latvian-flag-horizontal-orientation')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
 
-                document.body.appendChild(toast);
+                <div id="latvian-flag-horizontal-orientation-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="latvian-flag-horizontal-orientation" data-code="&lt;latvian-flag orientation=&quot;horizontal&quot; height=&quot;140&quot; border-radius=&quot;0.5rem&quot; center-stripe-ratio=&quot;0.25&quot;&gt;&lt;/latvian-flag&gt;"></code></pre>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
 
-                setTimeout(() => {
-                    toast.style.opacity = '1';
-                }, 100);
+      <div class="component-card bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors">
+              <code class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1 rounded text-lg transition-colors">&lt;valksor-logo&gt;</code>
+            </h2>
+            <button
+              onclick="copyToClipboard('valksor-logo')"
+              class="text-sm bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors"
+              title="Copy tag name"
+            >
+              Copy
+            </button>
+          </div>
 
-                setTimeout(() => {
-                    toast.style.opacity = '0';
-                    setTimeout(() => {
-                        document.body.removeChild(toast);
-                    }, 300);
-                }, 2000);
-            }
+          
+          <div class="mb-4">
+            <p class="text-gray-700 dark:text-gray-300 transition-colors">Valksor logo</p>
+            
+          </div>
+          
 
-            // Search/filter functionality
-            function filterComponents() {
-                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-                const cards = document.querySelectorAll('.component-card');
+          <div class="space-y-4">
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Default</h3>
 
-                cards.forEach(card => {
-                    const text = card.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <valksor-logo></valksor-logo>
+                </div>
 
-            // Initialize
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('Valksor Component Library loaded successfully');
-                restoreCodeStates();
-            });
-        </script>
-    </body>
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('valksor-logo-default')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="valksor-logo-default-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="valksor-logo-default-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('valksor-logo-default')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
+
+                <div id="valksor-logo-default-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="valksor-logo-default" data-code="&lt;valksor-logo&gt;&lt;/valksor-logo&gt;"></code></pre>
+                </div>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Set size</h3>
+
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <valksor-logo size="96px"></valksor-logo>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('valksor-logo-set-size')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="valksor-logo-set-size-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="valksor-logo-set-size-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('valksor-logo-set-size')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
+
+                <div id="valksor-logo-set-size-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="valksor-logo-set-size" data-code="&lt;valksor-logo size=&quot;96px&quot;&gt;&lt;/valksor-logo&gt;"></code></pre>
+                </div>
+              </div>
+            
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Set width and height separately</h3>
+
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <valksor-logo width="120px" height="80px"></valksor-logo>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('valksor-logo-set-width-and-height-separately')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="valksor-logo-set-width-and-height-separately-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="valksor-logo-set-width-and-height-separately-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('valksor-logo-set-width-and-height-separately')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
+
+                <div id="valksor-logo-set-width-and-height-separately-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="valksor-logo-set-width-and-height-separately" data-code="&lt;valksor-logo width=&quot;120px&quot; height=&quot;80px&quot;&gt;&lt;/valksor-logo&gt;"></code></pre>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="text-center text-gray-600 dark:text-gray-400 transition-colors">
+          <p>Generated with ❤️ by Valksor • <span id="componentCount">2</span> component(s) available</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Dark mode functionality
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle('dark');
+        const button = document.getElementById('darkModeToggle');
+        const isDark = document.documentElement.classList.contains('dark');
+        button.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('darkMode', isDark);
+      }
+
+      // Load dark mode preference
+      if (localStorage.getItem('darkMode') === 'true') {
+        toggleDarkMode();
+      }
+
+      // HTML decoding utility
+      function decodeHtmlAttribute(str) {
+        return str
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&#39;/g, "'")
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&');
+      }
+
+      // Copy to clipboard functionality
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Copied to clipboard!');
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+          showToast('Failed to copy');
+        });
+      }
+
+      function copyCode(elementId) {
+        const codeElement = document.getElementById(elementId);
+        const text = codeElement.dataset.code ? decodeHtmlAttribute(codeElement.dataset.code) : codeElement.textContent;
+        copyToClipboard(text);
+      }
+
+      // Toggle code display functionality
+      function toggleCode(exampleId) {
+        const container = document.getElementById(exampleId + '-container');
+        const chevron = document.getElementById(exampleId + '-chevron');
+        const text = document.getElementById(exampleId + '-text');
+        const codeElement = document.getElementById(exampleId);
+
+        const isHidden = container.classList.contains('hidden');
+
+        if (isHidden) {
+          // Ensure the code element displays the stored source code
+          if (codeElement && codeElement.dataset.code) {
+            codeElement.textContent = decodeHtmlAttribute(codeElement.dataset.code);
+          }
+
+          container.classList.remove('hidden');
+          chevron.style.transform = 'rotate(180deg)';
+          text.textContent = 'Hide Code';
+          localStorage.setItem('code-' + exampleId, 'visible');
+        } else {
+          container.classList.add('hidden');
+          chevron.style.transform = 'rotate(0deg)';
+          text.textContent = 'Show Code';
+          localStorage.setItem('code-' + exampleId, 'hidden');
+        }
+      }
+
+      // Restore code visibility states from localStorage
+      function restoreCodeStates() {
+        const codeContainers = document.querySelectorAll('[id$="-container"]');
+        codeContainers.forEach(container => {
+          const exampleId = container.id.replace('-container', '');
+          const savedState = localStorage.getItem('code-' + exampleId);
+
+          if (savedState === 'visible') {
+            const chevron = document.getElementById(exampleId + '-chevron');
+            const text = document.getElementById(exampleId + '-text');
+
+            container.classList.remove('hidden');
+            if (chevron) chevron.style.transform = 'rotate(180deg)';
+            if (text) text.textContent = 'Hide Code';
+          }
+        });
+      }
+
+      // Toast notification
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 right-4 bg-gray-800 dark:bg-gray-700 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+        toast.textContent = message;
+        toast.style.opacity = '0';
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '1';
+        }, 100);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 2000);
+      }
+
+      // Search/filter functionality
+      function filterComponents() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.component-card');
+
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('Valksor Component Library loaded successfully');
+        restoreCodeStates();
+      });
+    </script>
+  </body>
 </html>

@@ -56,6 +56,21 @@ export namespace Components {
          */
         "width"?: string | number;
     }
+    interface ValksorLogo {
+        /**
+          * Optional height override; falls back to `size` when not provided.
+         */
+        "height"?: string;
+        /**
+          * Controls both width and height. Accepts any valid CSS length.
+          * @default '120px'
+         */
+        "size": string;
+        /**
+          * Optional width override; falls back to `size` when not provided.
+         */
+        "width"?: string;
+    }
 }
 declare global {
     interface HTMLLatvianFlagElement extends Components.LatvianFlag, HTMLStencilElement {
@@ -64,8 +79,15 @@ declare global {
         prototype: HTMLLatvianFlagElement;
         new (): HTMLLatvianFlagElement;
     };
+    interface HTMLValksorLogoElement extends Components.ValksorLogo, HTMLStencilElement {
+    }
+    var HTMLValksorLogoElement: {
+        prototype: HTMLValksorLogoElement;
+        new (): HTMLValksorLogoElement;
+    };
     interface HTMLElementTagNameMap {
         "latvian-flag": HTMLLatvianFlagElement;
+        "valksor-logo": HTMLValksorLogoElement;
     }
 }
 declare namespace LocalJSX {
@@ -119,8 +141,24 @@ declare namespace LocalJSX {
          */
         "width"?: string | number;
     }
+    interface ValksorLogo {
+        /**
+          * Optional height override; falls back to `size` when not provided.
+         */
+        "height"?: string;
+        /**
+          * Controls both width and height. Accepts any valid CSS length.
+          * @default '120px'
+         */
+        "size"?: string;
+        /**
+          * Optional width override; falls back to `size` when not provided.
+         */
+        "width"?: string;
+    }
     interface IntrinsicElements {
         "latvian-flag": LatvianFlag;
+        "valksor-logo": ValksorLogo;
     }
 }
 export { LocalJSX as JSX };
@@ -128,6 +166,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "latvian-flag": LocalJSX.LatvianFlag & JSXBase.HTMLAttributes<HTMLLatvianFlagElement>;
+            "valksor-logo": LocalJSX.ValksorLogo & JSXBase.HTMLAttributes<HTMLValksorLogoElement>;
         }
     }
 }

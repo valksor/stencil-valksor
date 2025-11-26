@@ -31,6 +31,10 @@
         "./latvian-flag": {
             "import": "./dist/components/latvian-flag.js",
             "types": "./dist/components/latvian-flag.d.ts"
+        },
+        "./valksor-logo": {
+            "import": "./dist/components/valksor-logo.js",
+            "types": "./dist/components/valksor-logo.d.ts"
         }
     },
     "repository": {
@@ -62,17 +66,17 @@
         "@types/jest": "^29.5.14",
         "@types/node": "^24.10.1",
         "autoprefixer": "^10.4.22",
-        "chokidar": "^4.0.3",
+        "chokidar": "^5.0.0",
         "concurrently": "^9.2.1",
         "jest": "^29.7.0",
         "jest-cli": "^29.7.0",
         "postcss": "^8.5.6",
         "prettier-plugin-tailwindcss": "^0.7.1",
-        "puppeteer": "^24.30.0",
+        "puppeteer": "^24.31.0",
         "tailwindcss": "^4.1.17"
     },
     "license": "BSD-3-Clause",
     "dependencies": {
-        "caniuse-lite": "^1.0.30001754"
+        "caniuse-lite": "^1.0.30001757"
     }
 }

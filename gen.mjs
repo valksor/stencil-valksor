@@ -128,13 +128,13 @@ function extractExamplesFromReadme(readmeContent) {
     let usageNotes = '';
 
     // Extract description from the intro paragraph (between title and first ## section)
-    const descriptionMatch = readmeContent.match(/^#[^\n]+\n\n([\s\S]*?)(?=\n## |\Z)/);
+    const descriptionMatch = readmeContent.match(/^#[^\n]+\n\n([\s\S]*?)(?=\n## |$)/);
     if (descriptionMatch) {
         description = descriptionMatch[1].trim();
     }
 
     // Extract usage notes from the Usage Notes section, stopping before any ### subsections or next ##
-    const usageNotesMatch = readmeContent.match(/## Usage Notes\s*\n([\s\S]*?)(?=\n### |\n## |\n<!-- Auto Generated Below|\Z)/);
+    const usageNotesMatch = readmeContent.match(/## Usage Notes\s*\n([\s\S]*?)(?=\n### |\n## |\n<!-- Auto Generated Below|$)/);
     if (usageNotesMatch) {
         usageNotes = usageNotesMatch[1].trim();
         // Clean up usage notes - remove excessive whitespace and format lists better
@@ -145,7 +145,7 @@ function extractExamplesFromReadme(readmeContent) {
     }
 
     // Find the Examples section
-    const examplesSectionMatch = readmeContent.match(/## Examples\s*\n([\s\S]*?)(?=\n## |\n<!-- Auto Generated Below|\Z)/);
+    const examplesSectionMatch = readmeContent.match(/## Examples\s*\n([\s\S]*?)(?=\n## |\n<!-- Auto Generated Below|$)/);
 
     if (examplesSectionMatch) {
         const examplesSection = examplesSectionMatch[1];
@@ -341,7 +341,7 @@ function createHtml(tags, componentInfo = {}, componentExamples = {}) {
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-8 md:gap-4">
+      <div class="grid grid-cols-1 gap-8">
         ${componentsHtml}
       </div>
     </main>
