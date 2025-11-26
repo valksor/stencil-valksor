@@ -58,6 +58,10 @@ export namespace Components {
     }
     interface ValksorLogo {
         /**
+          * Fill color for the logo paths. Defaults to `currentColor`.
+         */
+        "fill"?: string;
+        /**
           * Optional height override; falls back to `size` when not provided.
          */
         "height"?: string;
@@ -142,6 +146,10 @@ declare namespace LocalJSX {
         "width"?: string | number;
     }
     interface ValksorLogo {
+        /**
+          * Fill color for the logo paths. Defaults to `currentColor`.
+         */
+        "fill"?: string;
         /**
           * Optional height override; falls back to `size` when not provided.
          */

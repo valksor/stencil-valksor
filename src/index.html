@@ -410,6 +410,40 @@
                 </div>
               </div>
             
+              <div class="example-section">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 transition-colors">Set fill color</h3>
+
+                <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-3 flex items-center justify-center min-h-[60px] transition-colors">
+                  <valksor-logo size="80px" fill="#960018"></valksor-logo>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <button
+                      onclick="toggleCode('valksor-logo-set-fill-color')"
+                      class="text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded transition-colors flex items-center space-x-1"
+                      title="Toggle code display"
+                    >
+                      <svg id="valksor-logo-set-fill-color-chevron" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span id="valksor-logo-set-fill-color-text">Show Code</span>
+                    </button>
+                    <button
+                      onclick="copyCode('valksor-logo-set-fill-color')"
+                      class="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors"
+                      title="Copy code"
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                </div>
+
+                <div id="valksor-logo-set-fill-color-container" class="hidden">
+                  <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto text-sm transition-all duration-200"><code id="valksor-logo-set-fill-color" data-code="&lt;valksor-logo size=&quot;80px&quot; fill=&quot;#960018&quot;&gt;&lt;/valksor-logo&gt;"></code></pre>
+                </div>
+              </div>
+            
           </div>
         </div>
       </div>
